@@ -64,9 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Blade\BladeScript.cs" />
+    <Compile Include="Assets\Scripts\Buttons\Ads\AdButtonsScript.cs" />
+    <Compile Include="Assets\Scripts\Buttons\Ads\LongAdTimerScript.cs" />
+    <Compile Include="Assets\Scripts\Buttons\Game\GameButtonsScript.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Shield\ShieldScalingScript.cs" />
+    <Compile Include="Assets\Scripts\Shield\ShieldMoveScript.cs" />
     <Compile Include="Assets\Scripts\Shield\ShieldScript.cs" />
+    <Compile Include="Assets\Scripts\SwipePoint\CircleScript.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

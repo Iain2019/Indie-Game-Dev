@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1755081274081678723}
   - component: {fileID: 1755081274081678722}
   - component: {fileID: 1755081274081678721}
-  - component: {fileID: -6560931606623932268}
+  - component: {fileID: 7588192088164809269}
   m_Layer: 0
   m_Name: ShieldWhole
   m_TagString: Untagged
@@ -84,10 +84,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568ceb1fd693c964eb16f9446ca93c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gameManager: {fileID: 0}
+  m_slicePoint: {fileID: 0}
   m_splitShieldPrefab: {fileID: 816424099508526839, guid: e6766993d03710242b5f8e8a854580e1,
     type: 3}
   m_sliceAngle: 45
---- !u!114 &-6560931606623932268
+--- !u!114 &7588192088164809269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,10 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4d7b97339df7e47a3d218168efd787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_minXYScale: 1.5
-  m_maxXYScale: 2
-  m_startScale: 0.75
-  m_deltaScale: 1.001
+  m_moveSpeed: 4
 --- !u!1001 &1755081274892824221
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
+    public bool m_hasContinued = false;
+
     [SerializeField]
     GameObject[] m_spawners;
+    [SerializeField]
+    GameObject[] m_slicePoints;
     [SerializeField]
     GameObject m_shieldPrefab;
     //[SerializeField]
@@ -22,6 +26,8 @@ public class GameManagerScript : MonoBehaviour
     GameObject m_scoreText;
     [SerializeField]
     GameObject m_multiplierText;
+    [SerializeField]
+    GameObject m_gameOver;
 
     int m_score = 0;
     int m_multiplier = 1;
@@ -29,68 +35,18 @@ public class GameManagerScript : MonoBehaviour
     float m_samplesValue;
     float m_previousSamplesValue;
     
-    //float m_timer;
     float m_timer;
     bool m_beat;
-    float m_thetaScale;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Old Constant Spawing
-        //m_timer = m_maxTimer;
-        m_thetaScale = 0.01f;        
-
-        foreach(GameObject spawner in m_spawners)
-        {
-            for(int i = 0; i < 2; i++)
-            {
-                Transform circleDrawer = spawner.transform.GetChild(i);
-
-                LineRenderer lineRenderer = circleDrawer.GetComponent<LineRenderer>();
-                float theta = 0.0f;
-                int size = (int)((1.0f / m_thetaScale) + 1.0f);
-                lineRenderer.positionCount = size;
-                for (int j = 0; j < size; j++)
-                {
-                    float radius = 0.0f;
-                    if (i == 0)
-                    {
-                        radius = m_shieldPrefab.GetComponent<ShieldScalingScript>().m_minXYScale - 0.75f;
-                    }
-                    else if (i == 1)
-                    {
-                        radius = m_shieldPrefab.GetComponent<ShieldScalingScript>().m_maxXYScale - 1.0f;
-                    }
-                    theta += (2.0f * Mathf.PI * m_thetaScale);
-                    float x = circleDrawer.transform.position.x + radius * Mathf.Cos(theta);
-                    float y = circleDrawer.transform.position.y + radius * Mathf.Sin(theta);
-                    lineRenderer.SetPosition(j, new Vector3(x, y, 0));
-                }
-            }
-
-            //Old Constant Spawing
-            //Instantiate(m_shieldPrefab, spawner.transform.position, spawner.transform.rotation);
-        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Old Constant Spawing
-        //if (m_timer > 0.0f)
-        //{
-        //    m_timer -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    m_timer = m_maxTimer;
-        //    foreach (GameObject spawner in m_spawners)
-        //    {
-        //        Instantiate(m_shieldPrefab, spawner.transform.position, spawner.transform.rotation);
-        //    }
-        //}
-
         m_previousSamplesValue = m_samplesValue;
         AudioListener.GetSpectrumData(m_samples, 0, m_fftWindow);
 
@@ -116,25 +72,26 @@ public class GameManagerScript : MonoBehaviour
                 OnBeat(1);
             }
         }
-
+        
         m_timer += Time.deltaTime;
     }
 
     void OnBeat(int a_spawnerIndex)
     {
         //Debug.Log("Beat");
+
         GameObject spawnedShield = Instantiate(m_shieldPrefab, m_spawners[a_spawnerIndex].transform.position, m_spawners[a_spawnerIndex].transform.rotation);
         spawnedShield.name = "SpawnedShield" + a_spawnerIndex.ToString();
         spawnedShield.GetComponent<ShieldScript>().m_gameManager = gameObject;
-        spawnedShield.GetComponent<ShieldScalingScript>().m_gameManager = gameObject;
+        spawnedShield.GetComponent<ShieldScript>().m_slicePoint = m_slicePoints[a_spawnerIndex];
         m_timer = 0;
     }
 
-    public void Break()
+    public void Break(bool a_inInner)
     {
         m_score += 10 * m_multiplier;
         m_scoreText.GetComponent<UnityEngine.UI.Text>().text = "Score: " + m_score.ToString();
-        if (m_multiplier < 8)
+        if (m_multiplier < 8 && a_inInner)
         {
             m_multiplier++;
         }
@@ -144,7 +101,8 @@ public class GameManagerScript : MonoBehaviour
     {
         if (m_multiplier == 1)
         {
-            Debug.Log("GameOver!");
+            Time.timeScale = 0;
+            m_gameOver.SetActive(true);
         }
         else
         {
