@@ -28,27 +28,39 @@ public class GameManagerScript : MonoBehaviour
     GameObject m_multiplierText;
     [SerializeField]
     GameObject m_gameOver;
+    [SerializeField]
+    int m_levelNumber;
 
     int m_score = 0;
     int m_multiplier = 1;
     float[] m_samples = new float[1024];
     float m_samplesValue;
     float m_previousSamplesValue;
-    
     float m_timer;
     bool m_beat;
+
+    SystemData m_systemData;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Time.timeScale = 1;
+        m_systemData = SaveSytem.LoadSystemData();
+        if (m_systemData.m_musicOn)
+        {
+            GetComponent<AudioSource>().outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", 0.0f);
+        }
+        else
+        {
+            GetComponent<AudioSource>().outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", -80.0f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         m_previousSamplesValue = m_samplesValue;
-        AudioListener.GetSpectrumData(m_samples, 0, m_fftWindow);
+        GetComponent<AudioSource>().GetSpectrumData(m_samples, 0, m_fftWindow);
 
         if (m_samples != null && m_samples.Length > 0)
         {

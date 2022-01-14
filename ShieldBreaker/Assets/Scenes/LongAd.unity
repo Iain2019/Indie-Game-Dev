@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_XButton: {fileID: 139140585}
+  m_time: 30
 --- !u!1 &634536475
 GameObject:
   m_ObjectHideFlags: 0

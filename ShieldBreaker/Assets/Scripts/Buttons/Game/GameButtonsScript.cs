@@ -22,6 +22,6 @@ public class GameButtonsScript : MonoBehaviour
 
     public void Menu()
     {
-        SceneManager.LoadScene(0); //Chnage to load menu when its added
+        SceneManager.LoadScene(2); //Chnage to load menu when its added
     }
 }
