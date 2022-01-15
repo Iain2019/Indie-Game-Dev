@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuButtonsScript : MonoBehaviour
 {
+    public SystemData m_systemData;
+
     [SerializeField]
     GameObject m_main;
     [SerializeField]
@@ -21,6 +23,8 @@ public class MenuButtonsScript : MonoBehaviour
     [SerializeField]
     GameObject m_storeLevels;
     [SerializeField]
+    GameObject m_storePurchase;
+    [SerializeField]
     GameObject m_starsText;
     [SerializeField]
     GameObject m_coinsText;
@@ -30,8 +34,8 @@ public class MenuButtonsScript : MonoBehaviour
     GameObject m_musicButton;
     [SerializeField]
     int m_levelCount;
-
-    SystemData m_systemData;
+    [SerializeField]
+    int m_shieldCount;
 
     private void Start()
     {
@@ -45,7 +49,45 @@ public class MenuButtonsScript : MonoBehaviour
     }
     public void LoadLevel1()
     {
-        SceneManager.LoadScene(3);
+        if (m_systemData.m_levelsData[0].m_unlocked)
+        {
+            SceneManager.LoadScene(3);
+        }
+    }
+    public void LoadLevel2()
+    {
+        if (m_systemData.m_levelsData[1].m_unlocked)
+        {
+            SceneManager.LoadScene(4);
+        }
+    }
+    public void LoadLevel3()
+    {
+        if (m_systemData.m_levelsData[2].m_unlocked)
+        {
+            SceneManager.LoadScene(4);
+        }
+    }
+    public void LoadLevel4()
+    {
+        if (m_systemData.m_levelsData[3].m_unlocked)
+        {
+            SceneManager.LoadScene(5);
+        }
+    }
+    public void LoadLevel5()
+    {
+        if (m_systemData.m_levelsData[4].m_unlocked)
+        {
+            SceneManager.LoadScene(6);
+        }
+    }
+    public void LoadLevel6()
+    {
+        if (m_systemData.m_levelsData[5].m_unlocked)
+        {
+            SceneManager.LoadScene(6);
+        }
     }
     public void BackFromLevels()
     {
@@ -66,6 +108,16 @@ public class MenuButtonsScript : MonoBehaviour
     {
         m_storeMain.SetActive(true);
         m_storeShields.SetActive(false);
+    }
+    public void StorePurchase()
+    {
+        m_storeMain.SetActive(false);
+        m_storePurchase.SetActive(true);
+    }
+    public void BackFromStorePurchase()
+    {
+        m_storeMain.SetActive(true);
+        m_storePurchase.SetActive(false);
     }
     public void StoreLevel()
     {
@@ -155,17 +207,39 @@ public class MenuButtonsScript : MonoBehaviour
             m_systemData.m_soundOn = true;
             m_systemData.m_musicOn = true;
             m_systemData.m_levelsData = new LevelData[m_levelCount];
+            m_systemData.m_shieldData = new ShieldData[m_shieldCount];
+
             for (int i = 0; i < m_systemData.m_levelsData.Length; i++)
             {
+                LevelData levelData = new LevelData(null);
                 if (i == 0)
                 {
-                    m_systemData.m_levelsData[i].m_unlocked = true;
+                    levelData.m_unlocked = true;
                 }
                 else
                 {
-                    m_systemData.m_levelsData[i].m_unlocked = false;
+                    levelData.m_unlocked = false;
                 }
-                m_systemData.m_levelsData[i].m_stars = 0;
+                levelData.m_stars = 0;
+
+                m_systemData.m_levelsData[i] = levelData;
+            }
+
+            for (int i = 0; i < m_systemData.m_shieldData.Length; i++)
+            {
+                ShieldData shieldData = new ShieldData(null);
+                if (i == 0)
+                {
+                    shieldData.m_unlocked = true;
+                    shieldData.m_equipped = true;
+                }
+                else
+                {
+                    shieldData.m_unlocked = false;
+                    shieldData.m_equipped = false;
+                }
+
+                m_systemData.m_shieldData[i] = shieldData;
             }
 
             SaveSytem.SaveSystemData(m_systemData);
@@ -189,4 +263,9 @@ public class MenuButtonsScript : MonoBehaviour
             m_musicButton.GetComponent<Image>().color = Color.red;
         }
     }
+    public void SaveSysytemData()
+    {
+        SaveSytem.SaveSystemData(m_systemData);
+    }
+
 }

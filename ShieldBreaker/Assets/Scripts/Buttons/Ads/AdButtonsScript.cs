@@ -18,6 +18,5 @@ public class AdButtonsScript : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-
     }
 }
