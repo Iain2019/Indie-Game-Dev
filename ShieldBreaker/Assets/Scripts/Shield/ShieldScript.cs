@@ -11,6 +11,12 @@ public class ShieldScript : MonoBehaviour
     GameObject m_splitShieldPrefab;
     [SerializeField]
     float m_sliceAngle;
+    [SerializeField]
+    AudioSource m_break;
+    [SerializeField]
+    AudioSource m_breakCrit;
+    [SerializeField]
+    AudioSource m_thump;
 
     private CircleCollider2D m_circleCollider2D;
     private GameObject m_slicePointOuter;
@@ -19,6 +25,12 @@ public class ShieldScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!(SaveSytem.LoadSystemData().m_soundOn))
+        {
+            m_break.mute = true;
+            m_breakCrit.mute = true;
+            m_thump.mute = true;
+        }
         m_circleCollider2D = GetComponent<CircleCollider2D>();
         m_slicePointOuter = m_slicePoint.transform.GetChild(0).gameObject;
         m_slicePointInner = m_slicePoint.transform.GetChild(1).gameObject;
@@ -61,25 +73,35 @@ public class ShieldScript : MonoBehaviour
             {
                 if (Vector2.Distance(m_slicePointOuter.transform.position, transform.position) < m_slicePointOuter.GetComponent<CircleScript>().m_radius)
                 {
-                    //Debug.Log("Sliced Noise");
-
                     Quaternion slicedSpawnRotation = Quaternion.LookRotation(transform.up);
                     GameObject splitShield = Instantiate(m_splitShieldPrefab, transform.position, slicedSpawnRotation);
+                    GameObject audioHolder = new GameObject();
+
                     if (Vector2.Distance(m_slicePointInner.transform.position, transform.position) < m_slicePointInner.GetComponent<CircleScript>().m_radius)
                     {
+                        audioHolder.AddComponent<AudioSource>().clip = m_breakCrit.clip;
+                        audioHolder.GetComponent<AudioSource>().playOnAwake = true;
+                        audioHolder.GetComponent<AudioSource>().mute = m_breakCrit.mute;
+
                         m_gameManager.GetComponent<GameManagerScript>().Break(true);
                     }
                     else
                     {
+                        audioHolder.AddComponent<AudioSource>().clip = m_break.clip;
+                        audioHolder.GetComponent<AudioSource>().playOnAwake = true;
+                        audioHolder.GetComponent<AudioSource>().mute = m_break.mute;
+
                         m_gameManager.GetComponent<GameManagerScript>().Break(false);
                     }
+                    Instantiate(audioHolder);
+                    Destroy(audioHolder, 1.0f);
                     Destroy(splitShield, 2.0f);
                     Destroy(gameObject);
                 }
             }
             else
             {
-                //Debug.Log("Thump Noise");
+                m_thump.Play();
 
                 m_gameManager.GetComponent<GameManagerScript>().Miss();
             }

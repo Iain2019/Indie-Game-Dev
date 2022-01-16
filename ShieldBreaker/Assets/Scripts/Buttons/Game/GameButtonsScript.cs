@@ -21,11 +21,17 @@ public class GameButtonsScript : MonoBehaviour
     [SerializeField]
     int m_1Star;
 
+    GameManagerScript GMS;
+
+    private void Start()
+    {
+        GMS = m_gameManager.GetComponent<GameManagerScript>();
+    }
     private void Update()
     {
         if (Time.timeScale == 1)
         {
-            m_gameManager.GetComponent<AudioSource>().Play();
+            GMS.m_music.Play();
             m_gamePanel.SetActive(false);
         }
     }
@@ -33,8 +39,6 @@ public class GameButtonsScript : MonoBehaviour
     {
         if (m_stars.Length != 0)
         {
-            GameManagerScript GMS = m_gameManager.GetComponent<GameManagerScript>();
-
             int stars = 0;
             if (GMS.m_score > m_3Star)
             {
@@ -75,9 +79,9 @@ public class GameButtonsScript : MonoBehaviour
 
     public void Continue()
     {
-        if (!(m_gameManager.GetComponent<GameManagerScript>().m_hasContinued))
+        if (!(GMS.m_hasContinued))
         {
-            m_gameManager.GetComponent<GameManagerScript>().m_hasContinued = true;
+            GMS.m_hasContinued = true;
             SceneManager.LoadScene(1, LoadSceneMode.Additive);
         }
     }

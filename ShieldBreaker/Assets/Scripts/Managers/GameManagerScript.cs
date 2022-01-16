@@ -8,11 +8,14 @@ public class GameManagerScript : MonoBehaviour
     public int m_levelNum;
     public bool m_hasContinued = false;
     public int m_score = 0;
+    public AudioSource m_music;
 
     [SerializeField]
     GameObject[] m_spawners;
     [SerializeField]
     GameObject[] m_shieldPrefabs;
+    [SerializeField]
+    GameObject m_bladePrefab;
     [SerializeField]
     GameObject[] m_slicePoints;
     //[SerializeField]
@@ -35,6 +38,8 @@ public class GameManagerScript : MonoBehaviour
     GameObject m_gameOver;
     [SerializeField]
     int m_levelNumber;
+    [SerializeField]
+    AudioSource m_scratch;
 
     GameObject m_shieldPrefab;
     int m_multiplier = 1;
@@ -48,8 +53,14 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1;
         m_systemData = SaveSytem.LoadSystemData();
+
+        if (!(m_systemData.m_soundOn))
+        {
+            m_scratch.mute = true;
+        }
+
+        Time.timeScale = 1;
         for (int i = 0; i < m_systemData.m_shieldData.Length; i++)
         {
             if (m_systemData.m_shieldData[i].m_equipped)
@@ -59,26 +70,30 @@ public class GameManagerScript : MonoBehaviour
         }
         if (m_systemData.m_musicOn)
         {
-            GetComponent<AudioSource>().outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", 0.0f);
+            m_music.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", 0.0f);
         }
         else
         {
-            GetComponent<AudioSource>().outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", -80.0f);
+            m_music.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", -80.0f);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(m_bladePrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+        }
         m_totalTime += Time.deltaTime;
-        if (m_totalTime > GetComponent<AudioSource>().clip.length)
+        if (m_totalTime > m_music.clip.length)
         {
             Time.timeScale = 0;
             m_gameDone.GetComponent<GameButtonsScript>().UpdateUI();
             m_gameDone.SetActive(true);
         }
         m_previousSamplesValue = m_samplesValue;
-        GetComponent<AudioSource>().GetSpectrumData(m_samples, 0, m_fftWindow);
+        m_music.GetSpectrumData(m_samples, 0, m_fftWindow);
 
         if (m_samples != null && m_samples.Length > 0)
         {
@@ -108,8 +123,6 @@ public class GameManagerScript : MonoBehaviour
 
     void OnBeat(int a_spawnerIndex)
     {
-        //Debug.Log("Beat");
-
         GameObject spawnedShield = Instantiate(m_shieldPrefab, m_spawners[a_spawnerIndex].transform.position, m_spawners[a_spawnerIndex].transform.rotation);
         spawnedShield.name = "SpawnedShield" + a_spawnerIndex.ToString();
         spawnedShield.GetComponent<ShieldScript>().m_gameManager = gameObject;
@@ -129,18 +142,19 @@ public class GameManagerScript : MonoBehaviour
     }
     public void Miss()
     {
-        //if (m_multiplier == 1)
-        //{
-        //    Time.timeScale = 0;
-        //    GetComponent<AudioSource>().Pause();
-        //    m_gameOver.GetComponent<GameButtonsScript>().UpdateUI();
-        //    m_gameOver.SetActive(true);
-        //}
-        //else
-        //{
-        //    m_multiplier = 1;
-        //    m_multiplierText.GetComponent<UnityEngine.UI.Text>().text = "x" + m_multiplier.ToString();
-        //}
+        if (m_multiplier == 1)
+        {
+            Time.timeScale = 0;
+            m_music.Pause();
+            m_scratch.Play();
+            m_gameOver.GetComponent<GameButtonsScript>().UpdateUI();
+            m_gameOver.SetActive(true);
+        }
+        else
+        {
+            m_multiplier = 1;
+            m_multiplierText.GetComponent<UnityEngine.UI.Text>().text = "x" + m_multiplier.ToString();
+        }
     }
 
     public void SaveSysytemData()

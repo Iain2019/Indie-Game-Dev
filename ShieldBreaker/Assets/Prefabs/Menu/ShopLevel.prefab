@@ -46,8 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MenuButtonScript: {fileID: 0}
   m_buyButton: {fileID: 6635636109527268712}
-  m_equipButton: {fileID: 0}
-  m_shieldNum: 0
+  m_leveldNum: 0
   m_buyMethod: 0
   m_cost: 0
 --- !u!1001 &7521712358848242582
@@ -76,7 +75,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3344933210643776390}
     - target: {fileID: 3779925725150191296, guid: f08faa597833f9646a77b961c0daa764,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

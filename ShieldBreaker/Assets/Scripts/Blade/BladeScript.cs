@@ -28,6 +28,11 @@ public class BladeScript : MonoBehaviour
         m_circleCollider2D = GetComponent<CircleCollider2D>();
 
         m_previousPosition = transform.position;
+
+        m_isCutting = true;
+        m_currentTrail = Instantiate(m_trailPrefab, transform);
+        m_previousPosition = m_camera.ScreenToWorldPoint(Input.mousePosition);
+        m_circleCollider2D.enabled = false;
     }
 
     // Update is called once per frame
@@ -36,11 +41,7 @@ public class BladeScript : MonoBehaviour
         Vector2 currentPosition = m_camera.ScreenToWorldPoint(Input.mousePosition);
         m_rigidbody2D.position = currentPosition;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartSlash();
-        }
-        else if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             EndSlash();
         }
@@ -67,21 +68,12 @@ public class BladeScript : MonoBehaviour
 
         m_previousPosition = a_currentVelocity;
     }
-
-    void StartSlash()
-    {
-        //Debug.Log("Swoosh Noise");
-
-        m_isCutting = true;
-        m_currentTrail = Instantiate(m_trailPrefab, transform);
-        m_previousPosition = m_camera.ScreenToWorldPoint(Input.mousePosition);
-        m_circleCollider2D.enabled = false;
-    }
     void EndSlash()
     {
         m_isCutting = false;
         m_currentTrail.transform.SetParent(null);
         Destroy(m_currentTrail, 2.0f);
         m_circleCollider2D.enabled = false;
+        Destroy(this.gameObject);
     }
 }
