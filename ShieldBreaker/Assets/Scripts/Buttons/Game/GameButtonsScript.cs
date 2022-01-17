@@ -37,6 +37,7 @@ public class GameButtonsScript : MonoBehaviour
     }
     public void UpdateUI()
     {
+        GMS = m_gameManager.GetComponent<GameManagerScript>();
         if (m_stars.Length != 0)
         {
             int stars = 0;

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ShieldMoveScript : MonoBehaviour
 {
-    [SerializeField]
-    float m_moveSpeed;
+    public float m_moveSpeed;
 
     // Start is called before the first frame update
     void Start()

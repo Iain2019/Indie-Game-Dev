@@ -142,19 +142,19 @@ public class GameManagerScript : MonoBehaviour
     }
     public void Miss()
     {
-        if (m_multiplier == 1)
-        {
-            Time.timeScale = 0;
-            m_music.Pause();
-            m_scratch.Play();
-            m_gameOver.GetComponent<GameButtonsScript>().UpdateUI();
-            m_gameOver.SetActive(true);
-        }
-        else
-        {
-            m_multiplier = 1;
-            m_multiplierText.GetComponent<UnityEngine.UI.Text>().text = "x" + m_multiplier.ToString();
-        }
+        //if (m_multiplier == 1)
+        //{
+        //    Time.timeScale = 0;
+        //    m_music.Pause();
+        //    m_scratch.Play();
+        //    m_gameOver.GetComponent<GameButtonsScript>().UpdateUI();
+        //    m_gameOver.SetActive(true);
+        //}
+        //else
+        //{
+        //    m_multiplier = 1;
+        //    m_multiplierText.GetComponent<UnityEngine.UI.Text>().text = "x" + m_multiplier.ToString();
+        //}
     }
 
     public void SaveSysytemData()

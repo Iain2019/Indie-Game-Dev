@@ -77,7 +77,6 @@
     <Compile Include="Assets\Scripts\Shield\ShieldScript.cs" />
     <Compile Include="Assets\Scripts\SwipePoint\CircleScript.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverMenuTimer.cs" />
-    <None Include="Assets\Audio\Sounds\SoundLinks.txt" />
     <None Include="Assets\Audio\Music\MusicLinks.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
