@@ -32,6 +32,7 @@ public class GameButtonsScript : MonoBehaviour
         if (Time.timeScale == 1)
         {
             GMS.m_music.Play();
+            GMS.m_playersMusic.Play();
             m_gamePanel.SetActive(false);
         }
     }

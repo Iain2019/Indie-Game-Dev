@@ -9,6 +9,7 @@ public class GameManagerScript : MonoBehaviour
     public bool m_hasContinued = false;
     public int m_score = 0;
     public AudioSource m_music;
+    public AudioSource m_playersMusic;
 
     [SerializeField]
     GameObject[] m_spawners;
@@ -49,6 +50,7 @@ public class GameManagerScript : MonoBehaviour
     float m_timer;
     bool m_beat;
     float m_totalTime = 0;
+    bool m_startPlay = true;
 
     // Start is called before the first frame update
     void Start()
@@ -70,11 +72,13 @@ public class GameManagerScript : MonoBehaviour
         }
         if (m_systemData.m_musicOn)
         {
-            m_music.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", 0.0f);
+            //m_music.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", 0.0f);
+            m_playersMusic.mute = false;
         }
         else
         {
-            m_music.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", -80.0f);
+            //m_music.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", -80.0f);
+            m_playersMusic.mute = true;
         }
     }
 
@@ -86,7 +90,12 @@ public class GameManagerScript : MonoBehaviour
             Instantiate(m_bladePrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
         }
         m_totalTime += Time.deltaTime;
-        if (m_totalTime > m_music.clip.length)
+        if (m_totalTime > 8 / (m_shieldPrefab.GetComponent<ShieldMoveScript>().m_moveSpeed) && m_startPlay)
+        {
+            m_playersMusic.Play();
+            m_startPlay = false;
+        }
+        if (m_totalTime > m_music.clip.length + 3.0f)
         {
             Time.timeScale = 0;
             m_gameDone.GetComponent<GameButtonsScript>().UpdateUI();
@@ -127,6 +136,7 @@ public class GameManagerScript : MonoBehaviour
         spawnedShield.name = "SpawnedShield" + a_spawnerIndex.ToString();
         spawnedShield.GetComponent<ShieldScript>().m_gameManager = gameObject;
         spawnedShield.GetComponent<ShieldScript>().m_slicePoint = m_slicePoints[a_spawnerIndex];
+        Destroy(spawnedShield, 5.0f);
         m_timer = 0;
     }
 
@@ -142,19 +152,20 @@ public class GameManagerScript : MonoBehaviour
     }
     public void Miss()
     {
-        //if (m_multiplier == 1)
-        //{
-        //    Time.timeScale = 0;
-        //    m_music.Pause();
-        //    m_scratch.Play();
-        //    m_gameOver.GetComponent<GameButtonsScript>().UpdateUI();
-        //    m_gameOver.SetActive(true);
-        //}
-        //else
-        //{
-        //    m_multiplier = 1;
-        //    m_multiplierText.GetComponent<UnityEngine.UI.Text>().text = "x" + m_multiplier.ToString();
-        //}
+        if (m_multiplier == 1)
+        {
+            Time.timeScale = 0;
+            m_music.Pause();
+            m_playersMusic.Pause();
+            m_scratch.Play();
+            m_gameOver.GetComponent<GameButtonsScript>().UpdateUI();
+            m_gameOver.SetActive(true);
+        }
+        else
+        {
+            m_multiplier = 1;
+            m_multiplierText.GetComponent<UnityEngine.UI.Text>().text = "x" + m_multiplier.ToString();
+        }
     }
 
     public void SaveSysytemData()

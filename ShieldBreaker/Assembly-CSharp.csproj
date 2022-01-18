@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Managers\StoreLevelsManagerScript.cs" />
     <Compile Include="Assets\Scripts\SaveSystem\SaveSystem.cs" />
     <Compile Include="Assets\Scripts\SaveSystem\SystemData.cs" />
+    <Compile Include="Assets\Scripts\Shield\AudioDestroyer.cs" />
     <Compile Include="Assets\Scripts\Shield\ShieldMoveScript.cs" />
     <Compile Include="Assets\Scripts\Shield\ShieldScript.cs" />
     <Compile Include="Assets\Scripts\SwipePoint\CircleScript.cs" />

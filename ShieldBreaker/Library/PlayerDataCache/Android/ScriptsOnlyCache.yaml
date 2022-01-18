@@ -909,7 +909,7 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
-      Hash: 4ee56ea444ec7eb5dd395a726255561d
+      Hash: 319c9ff8b1eff225b94196b71acc3631
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManagerScript
@@ -1191,7 +1191,7 @@ ScriptsOnlyBuild:
     className: StoreLevelsManagerScript
   - hash:
       serializedVersion: 2
-      Hash: a82f809031a235b63a5296b193725cea
+      Hash: 0b305d450632602c34713b963f1b9dfb
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ShieldScript
@@ -1243,6 +1243,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AudioDestroyer
   platform: 13
   scenePathNames:
   - Assets/Scenes/MenuScene.unity

@@ -94,8 +94,8 @@ public class ShieldScript : MonoBehaviour
                         m_gameManager.GetComponent<GameManagerScript>().Break(false);
                     }
                     audioHolder.name = "AudioHolder";
+                    audioHolder.AddComponent<AudioDestroyer>();
                     Instantiate(audioHolder);
-                    Destroy(audioHolder, 2.0f);
                     Destroy(splitShield, 2.0f);
                     Destroy(gameObject);
                 }
