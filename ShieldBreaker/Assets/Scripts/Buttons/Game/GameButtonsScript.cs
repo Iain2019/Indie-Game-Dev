@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameButtonsScript : MonoBehaviour
 {
+    //serlizable variabless
     [SerializeField]
     GameObject m_gameManager;
     [SerializeField]
@@ -20,15 +21,17 @@ public class GameButtonsScript : MonoBehaviour
     int m_2Star;
     [SerializeField]
     int m_1Star;
-
+    //private variables 
     GameManagerScript GMS;
 
     private void Start()
     {
+        //get game manager
         GMS = m_gameManager.GetComponent<GameManagerScript>();
     }
     private void Update()
     {
+        //if time scale is 1 being play again
         if (Time.timeScale == 1)
         {
             GMS.m_music.Play();
@@ -38,6 +41,7 @@ public class GameButtonsScript : MonoBehaviour
     }
     public void UpdateUI()
     {
+        //change UI based on level success
         GMS = m_gameManager.GetComponent<GameManagerScript>();
         if (m_stars.Length != 0)
         {
@@ -74,13 +78,14 @@ public class GameButtonsScript : MonoBehaviour
             {
                 m_newHighScore.SetActive(false);
             }
-
+            //save data
             GMS.SaveSysytemData();
         }
     }
 
     public void Continue()
     {
+        //allow continue for ad
         if (!(GMS.m_hasContinued))
         {
             GMS.m_hasContinued = true;
@@ -90,6 +95,7 @@ public class GameButtonsScript : MonoBehaviour
 
     public void Menu()
     {
+        //load short ad
         SceneManager.LoadScene(2); //Chnage to load menu when its added
     }
 }

@@ -15,6 +15,7 @@ public class SystemData
 
     public SystemData(SystemData a_systemData)
     {
+        //in data passed in assign it
         if (a_systemData != null)
         {
             m_stars = a_systemData.m_stars;
@@ -34,6 +35,7 @@ public class LevelData
     public int m_stars;
     public LevelData(LevelData a_levelData)
     {
+        //in data passed in assign it
         if (a_levelData != null)
         {
             m_unlocked = a_levelData.m_unlocked;
@@ -49,6 +51,7 @@ public class ShieldData
     public bool m_equipped;
     public ShieldData(ShieldData a_shiledData)
     {
+        //in data passed in assign it
         if (a_shiledData != null)
         {
             m_unlocked = a_shiledData.m_unlocked;

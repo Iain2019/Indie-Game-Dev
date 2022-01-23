@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class LongAdTimerScript : MonoBehaviour
 {
+    //serializable variables
     [SerializeField]
     GameObject m_XButton;
     [SerializeField]
     float m_time;
-
+    //private variables
     float m_startingTime;
 
     private void Start()
@@ -20,7 +21,7 @@ public class LongAdTimerScript : MonoBehaviour
     void Update()
     {
         float time = m_time - (Time.realtimeSinceStartup - m_startingTime);
-
+        //countdown to ad finsih
         if (time > 0)
         {
             GetComponent<UnityEngine.UI.Text>().text = ((int)time).ToString();

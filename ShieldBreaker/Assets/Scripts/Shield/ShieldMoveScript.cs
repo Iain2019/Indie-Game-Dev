@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShieldMoveScript : MonoBehaviour
 {
+    //public variables
     public float m_moveSpeed;
 
     // Start is called before the first frame update
@@ -15,6 +16,7 @@ public class ShieldMoveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //move shield 
         transform.position = new Vector3(transform.position.x, transform.position.y - (m_moveSpeed * Time.deltaTime), transform.position.z);
     }
 }
